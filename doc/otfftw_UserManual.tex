@@ -1,0 +1,56 @@
+% 
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.2
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+% Texts.  A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{User Manual}
+
+This section gives an exhaustive presentation of the objects and functions provided by the $otfftw$ module, in the alphabetic order.
+
+\subsection{FFTW}
+
+
+\begin{description}
+\item[Usage :]  \strut
+  \begin{description}
+  \item $FFTW()$
+  \end{description}
+\item[Arguments :] None
+\item[Value :]  a FFTW instance, it means an algorithm able to perform discrete Fourier transforms using the fftw library.
+\item[Some methods :]  \strut
+
+  \begin{description}
+
+  \item $transform$
+    \begin{description}
+    \item[Usage :]  $transform(collection)$
+    \item[Usage :]  $transform(collection, first, size)$
+    \item[Arguments :]  \strut
+      \begin{description}
+      \item $collection$ : a NumericalComplexCollection of length $n$.
+      \item $first$ : an integer, the index of the first element of $collection$ to be taken into account. We must have $first < n$.
+      \item $size$ : an integer, the size of the sub-sequence of $collection$ to be transformed. We must have $first+size \leq n$.
+      \end{description}
+    \item[Value :] a NumericalComplexCollection, containing the direct discrete Fourier transform of the whole collection for the first usage and of the sub-sequence starting at position $first$ and of length $size$ for the second usage.
+    \end{description}
+
+  \item $inverseTransform$
+    \begin{description}
+    \item[Usage :]  $inverseTransform(collection)$
+    \item[Usage :]  $inverseTransform(collection, first, size)$
+    \item[Arguments :]  \strut
+      \begin{description}
+      \item $collection$ : a NumericalComplexCollection of length $n$.
+      \item $first$ : an integer, the index of the first element of $collection$ to be taken into account. We must have $first < n$.
+      \item $size$ : an integer, the size of the sub-sequence of $collection$ to be transformed. We must have $first+size \leq n$.
+      \end{description}
+    \item[Value :] a NumericalComplexCollection, containing the inverse discrete Fourier transform of the whole collection for the first usage and of the sub-sequence starting at position $first$ and of length $size$ for the second usage.
+    \end{description}
+
+  \end{description}
+
+\end{description}

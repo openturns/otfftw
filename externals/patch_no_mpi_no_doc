@@ -1,0 +1,33 @@
+diff -rupN original/Makefile.am new/Makefile.am
+--- original/Makefile.am	2014-04-04 21:32:41.580287975 +0200
++++ new/Makefile.am	2014-04-04 21:32:31.461068264 +0200
+@@ -31,7 +31,7 @@ CHICKEN_EGG=. threads
+ endif
+ 
+ SUBDIRS=support $(GENFFT) kernel simd-support dft rdft reodft api	\
+-libbench2 $(CHICKEN_EGG) tests mpi doc tools m4
++libbench2 $(CHICKEN_EGG) tests tools m4
+ EXTRA_DIST=COPYRIGHT bootstrap.sh CONVENTIONS fftw.pc.in
+ 
+ SIMD_LIBS =						\
+diff -rupN original/Makefile.in new/Makefile.in
+--- original/Makefile.in	2014-04-04 21:32:44.556352845 +0200
++++ new/Makefile.in	2014-04-04 21:32:34.918143174 +0200
+@@ -232,7 +232,7 @@ ETAGS = etags
+ CTAGS = ctags
+ CSCOPE = cscope
+ DIST_SUBDIRS = support genfft kernel simd-support dft rdft reodft api \
+-	libbench2 . threads tests mpi doc tools m4
++	libbench2 . threads tests tools m4
+ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+ distdir = $(PACKAGE)-$(VERSION)
+ top_distdir = $(distdir)
+@@ -444,7 +444,7 @@ ACLOCAL_AMFLAGS = -I m4
+ #
+ @COMBINED_THREADS_TRUE@CHICKEN_EGG = threads .
+ SUBDIRS = support $(GENFFT) kernel simd-support dft rdft reodft api	\
+-libbench2 $(CHICKEN_EGG) tests mpi doc tools m4
++libbench2 $(CHICKEN_EGG) tests tools m4
+ 
+ EXTRA_DIST = COPYRIGHT bootstrap.sh CONVENTIONS fftw.pc.in
+ SIMD_LIBS = \

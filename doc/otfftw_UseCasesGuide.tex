@@ -1,0 +1,123 @@
+% 
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.2
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+% Texts.  A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Use Cases Guide}
+
+This section presents the main functionalities of the module $otfftw$ in their context.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Which python modules to import ?}
+
+In order to use the functionalities described in this documentation, it is necessary to import  : 
+\begin{itemize}
+   \item the $otfftw$ module which links the $openturns$ module.
+\end{itemize}
+
+Python  script for this use case :
+
+\begin{lstlisting}
+from otfftw import *
+\end{lstlisting}
+
+\subsection{Which python modules to import ?}
+
+In order to use the functionalities described in this documentation, it is necessary to import  : 
+\begin{itemize}
+   \item the $openturns$ python module which gives access to the Open TURNS functionalities,
+   \item the $otfftw$ module which links the $openturns$ module.
+\end{itemize}
+
+Python  script for this use case :
+
+\begin{lstlisting}
+# Load OpenTURNS to manipulate NumericalComplexCollection
+from openturns import *
+# Load the link between OT and FFTW
+from otfftw import *
+\end{lstlisting}
+
+\subsection{UC: Using the FFTW algorithm to perform discrete Fourier transforms} \label{FFTWBasic}
+
+With the $otfftw$ module, it is possible to perform both direct and inverse discrete Fourier transforms using the high-performance fftw library. To perform such transforms, the needed data are:
+
+\requirements{
+  \begin{description}
+  \item[$\bullet$] a collection of complex values: {\itshape collection}
+  \item[type:] NumericalComplexCollection
+  \item[$\bullet$] the index of the first element to be transformed: {\itshape first}
+  \item[type:] UnsignedInteger
+ \item[$\bullet$] the size of the sub-sequence of values to be transformed: {\itshape size}
+  \item[type:] UnsignedInteger
+  \end{description}
+}
+{
+  \begin{description}
+  \item[$\bullet$] the transformed sequence : {\itshape transformedCollection},
+  \item[type:] NumericalComplexCollection
+  \end{description}
+}
+\espace
+
+Python script for this use case:
+
+\lstinputlisting[language=Python]{UC1_transform.py}
+
+\subsection{UC: Using the FFTW algorithm to speed-up spectral process simulation} \label{FFTWSpectralProcess}
+
+The fftw library is much more efficient than the FFT library provided by OpenTURNS. Knowing this point, OpenTURNS has been designed such that the TTF implementation can be plugged at run time for the most demanding algorithms. One of these algorithms is the simulation of SpectralProcess processes.
+
+\requirements{
+  \begin{description}
+  \item[$\bullet$] a spectral normal process : {\itshape process}
+  \item[type:] SpectralNormalProcess
+  \item[$\bullet$] a sample size : {\itshape size}
+  \item[type:] UnsignedInteger
+  \end{description}
+}
+{
+  \begin{description}
+  \item[$\bullet$] a sample of size $size$ of the process : {\itshape sample},
+  \item[type:] SampleProcess
+  \end{description}
+}
+\espace
+
+Python script for this use case:
+
+\lstinputlisting[language=Python]{UC2_spectral.py}
+
+\subsection{UC: Using the FFTW algorithm to speed-up spectral model estimation} \label{FFTWWelchFactory}
+
+The same way the FFTW class can be used to speed-up the SpectralNormal class, it can be used to speed-up the WelchFactory class.
+
+\requirements{
+  \begin{description}
+  \item[$\bullet$] a process sample : {\itshape sample}
+  \item[type:] ProcessSample
+  \item[$\bullet$] a Welch factory : {\itshape factory}
+  \item[type:] WelchFactory
+  \end{description}
+}
+{
+  \begin{description}
+  \item[$\bullet$] a spectral model : {\itshape spectralModel},
+  \item[type:] UserDefinedSpectralModel
+  \end{description}
+}
+\espace
+
+Python script for this use case:
+
+\lstinputlisting[language=Python]{UC3_Welch.py}
+

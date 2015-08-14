@@ -1,0 +1,28 @@
+% 
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.2
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+% Texts.  A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section{Reference Guide}
+
+The OpenTURNS-FFTW library provides a bridge between the OpenTURNS library and the FFTW library, one of the most efficient implementation of the Fast Fourier Transform available to date. This library implements both the direct and inverse discrete Fourier transform.
+
+More precisely, given a complex-valued sequence $(z_0,\dots,z_{n-1})$, its direct discrete Fourier transform $\Hat{z}=(\Check{z}_0,\dots,\Hat{z}_{n-1})$ reads:
+$$
+\Hat{z}_k = \sum_{j=0}^{n-1}z_j e^{-2i\pi\frac{jk}{n}}
+$$
+and its inverse discrete Fourier transform $\Check{z}=(\Check{z}_0,\dots,\Check{z}_{n-1})$ reads:
+$$
+\Check{z}_k = \frac{1}{n}\sum_{j=0}^{n-1}z_j e^{2i\pi\frac{jk}{n}}
+$$
+
+which gives the relation $z=\Check{\Hat{z}}$.
+
+It is worth noting that the FFTW library does not include the $\frac{1}{n}$ normalization factor for the inverse transform. The FFTW library provides an $\mathcal{O}(n\log n)$ complexity implementation of such transforms even for prime $n$, but the best performance is achieved when $n$ is a power of 2.
