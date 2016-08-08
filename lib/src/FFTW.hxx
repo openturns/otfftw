@@ -23,9 +23,9 @@
 #ifndef OTFFTW_FFTW_HXX
 #define OTFFTW_FFTW_HXX
 
-#include "TypedInterfaceObject.hxx"
-#include "StorageManager.hxx"
-#include "FFTImplementation.hxx"
+#include <openturns/TypedInterfaceObject.hxx>
+#include <openturns/StorageManager.hxx>
+#include <openturns/FFTImplementation.hxx>
 #include "OTFFTWprivate.hxx"
 
 namespace OTFFTW
