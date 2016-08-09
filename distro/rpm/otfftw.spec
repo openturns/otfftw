@@ -24,6 +24,11 @@ URL:            http://www.openturns.org/
 Source0:        http://downloads.sourceforge.net/openturns-modules/otfftw/otfftw-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:  gcc-c++, cmake, swig
+%if 0%{?suse_version}
+BuildRequires:  gcc-fortran
+%else
+BuildRequires:  gcc-gfortran
+%endif
 BuildRequires:  openturns-devel
 BuildRequires:  python-openturns
 BuildRequires:  python-devel
@@ -67,8 +72,8 @@ Python textual interface to OTFFTW uncertainty library
 %setup -q
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=/usr \
-       -DINSTALL_DESTDIR:PATH=%{buildroot} \
+%cmake -DINSTALL_DESTDIR:PATH=%{buildroot} \
+       -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
        -DBUILD_DOC=OFF .
 make %{?_smp_mflags}
 
@@ -78,7 +83,7 @@ make install DESTDIR=%{buildroot}
 
 %check
 make tests %{?_smp_mflags}
-ctest %{?_smp_mflags} || cat Testing/Temporary/LastTest.log
+LD_LIBRARY_PATH=%{buildroot}/usr/lib64 ctest %{?_smp_mflags} --output-on-failure
 rm %{buildroot}%{python_sitearch}/%{name}/*.pyc
 
 %clean
