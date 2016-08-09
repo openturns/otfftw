@@ -1,6 +1,5 @@
 //                                               -*- C++ -*-
 /**
- *  @file  FFTW.cxx
  *  @brief FFTW is an OpenTURNS interface to the fftw library for fast discrete Fourier transform
  *
  *  (C) Copyright 2005-2012 EDF-EADS-Phimeca
@@ -21,15 +20,15 @@
  */
 
 #include "fftw3.h"
-#include "OTtypes.hxx"
+#include <openturns/OTtypes.hxx>
 #include "FFTW.hxx"
-#include "PersistentObjectFactory.hxx"
+#include <openturns/PersistentObjectFactory.hxx>
 
 namespace OTFFTW {
 
   CLASSNAMEINIT(FFTW);
 
-  static OT::Factory<FFTW> RegisteredFactory("FFTW");
+  static const OT::Factory<FFTW> Factory_FFTW;
 
   /* Constructor with parameters */
   FFTW::FFTW()
