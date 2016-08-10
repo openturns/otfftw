@@ -112,6 +112,7 @@ ifeq ($(DEBUG_OT),n)
 	$(TARGET)-strip -g $(MOD_PREFIX)/lib/*.a
 	$(TARGET)-strip --strip-unneeded $(MOD_PREFIX)/Lib/site-packages/*/*.pyd
 endif
+	cp $(MINGW_PREFIX)/$(TARGET)/bin/libfftw*.dll $(MOD_PREFIX)/bin
 	touch mod-install
 
 mod-test: mod-install
