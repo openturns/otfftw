@@ -51,14 +51,14 @@ namespace OTFFTW
     FFTW * clone() const;
 
     /** FFT transformation on complex */
-    FFTW::NumericalComplexCollection transform(const NumericalComplexCollection & collection) const;
-    FFTW::NumericalComplexCollection transform(const NumericalComplexCollection & collection,
+    FFTW::ComplexCollection transform(const ComplexCollection & collection) const;
+    FFTW::ComplexCollection transform(const ComplexCollection & collection,
                                                const OT::UnsignedInteger first,
                                                const OT::UnsignedInteger size) const;
 
     /** FFT inverse transformation */
-    FFTW::NumericalComplexCollection inverseTransform(const NumericalComplexCollection & collection) const;
-    FFTW::NumericalComplexCollection inverseTransform(const NumericalComplexCollection & collection,
+    FFTW::ComplexCollection inverseTransform(const ComplexCollection & collection) const;
+    FFTW::ComplexCollection inverseTransform(const ComplexCollection & collection,
                                                       const OT::UnsignedInteger first,
                                                       const OT::UnsignedInteger size) const;
 

@@ -61,34 +61,34 @@ namespace OTFFTW {
 
 
   /* FFT transformation on complex */
-  FFTW::NumericalComplexCollection FFTW::transform(const NumericalComplexCollection & collection) const
+  FFTW::ComplexCollection FFTW::transform(const ComplexCollection & collection) const
   {
     return transform(collection, 0, collection.getSize());
   }
 
-  FFTW::NumericalComplexCollection FFTW::transform(const NumericalComplexCollection & collection,
+  FFTW::ComplexCollection FFTW::transform(const ComplexCollection & collection,
                                                    const OT::UnsignedInteger first,
                                                    const OT::UnsignedInteger size) const
   {
-    NumericalComplexCollection result(size);
-    fftw_plan pForward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::NumericalComplex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_FORWARD, FFTW_ESTIMATE));
+    ComplexCollection result(size);
+    fftw_plan pForward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_FORWARD, FFTW_ESTIMATE));
     fftw_execute(pForward);
     fftw_destroy_plan(pForward);
     return result;
   }
 
   /* FFT T transformation */
-  FFTW::NumericalComplexCollection FFTW::inverseTransform(const NumericalComplexCollection & collection) const
+  FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collection) const
   {
     return inverseTransform(collection, 0, collection.getSize());
   }
 
-  FFTW::NumericalComplexCollection FFTW::inverseTransform(const NumericalComplexCollection & collection,
+  FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collection,
                                                           const OT::UnsignedInteger first,
                                                           const OT::UnsignedInteger size) const
   {
-    NumericalComplexCollection result(size);
-    fftw_plan pBackward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::NumericalComplex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_BACKWARD, FFTW_ESTIMATE));
+    ComplexCollection result(size);
+    fftw_plan pBackward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_BACKWARD, FFTW_ESTIMATE));
     fftw_execute(pBackward);
     fftw_destroy_plan(pBackward);
     for (OT::UnsignedInteger i = 0; i < size; ++i)
