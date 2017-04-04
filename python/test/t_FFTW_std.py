@@ -9,7 +9,7 @@ from time import *
 myFFTW = FFTW()
 print("myFFTW=", myFFTW)
 size = 8
-data = NumericalComplexCollection(size)
+data = ComplexCollection(size)
 for i in range(size):
     data[i] = (i + 1.0) -0.2j * (i + 1.0)
 print("data=", data)
