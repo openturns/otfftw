@@ -37,12 +37,12 @@ namespace OTFFTW
    * FFTW is an OpenTURNS interface to the fftw library for fast discrete Fourier transform
    */
   class OTFFTW_API FFTW
-    : public OpenTURNS::FFTImplementation
+    : public OT::FFTImplementation
   {
     CLASSNAME;
 
   public:
-
+    typedef OT::Collection<OT::Complex> ComplexCollection;
 
     /** Default constructor without parameters */
     FFTW();
@@ -51,14 +51,14 @@ namespace OTFFTW
     FFTW * clone() const;
 
     /** FFT transformation on complex */
-    FFTW::ComplexCollection transform(const ComplexCollection & collection) const;
-    FFTW::ComplexCollection transform(const ComplexCollection & collection,
+    ComplexCollection transform(const ComplexCollection & collection) const;
+    ComplexCollection transform(const ComplexCollection & collection,
                                                const OT::UnsignedInteger first,
                                                const OT::UnsignedInteger size) const;
 
     /** FFT inverse transformation */
-    FFTW::ComplexCollection inverseTransform(const ComplexCollection & collection) const;
-    FFTW::ComplexCollection inverseTransform(const ComplexCollection & collection,
+    ComplexCollection inverseTransform(const ComplexCollection & collection) const;
+    ComplexCollection inverseTransform(const ComplexCollection & collection,
                                                       const OT::UnsignedInteger first,
                                                       const OT::UnsignedInteger size) const;
 
