@@ -24,76 +24,77 @@
 #include "FFTW.hxx"
 #include <openturns/PersistentObjectFactory.hxx>
 
-namespace OTFFTW {
+namespace OTFFTW
+{
 
-  CLASSNAMEINIT(FFTW)
+CLASSNAMEINIT(FFTW)
 
-  static const OT::Factory<FFTW> Factory_FFTW;
+static const OT::Factory<FFTW> Factory_FFTW;
 
-  /* Constructor with parameters */
-  FFTW::FFTW()
-    : OT::FFTImplementation()
-  {
-    // Nothing to do
-  }
+/* Constructor with parameters */
+FFTW::FFTW()
+  : OT::FFTImplementation()
+{
+  // Nothing to do
+}
 
-  /* Virtual constructor */
-  FFTW * FFTW::clone() const
-  {
-    return new FFTW(*this);
-  }
+/* Virtual constructor */
+FFTW * FFTW::clone() const
+{
+  return new FFTW(*this);
+}
 
-  /* OT::String converter */
-  OT::String FFTW::__repr__() const
-  {
-    OT::OSS oss;
-    oss << "class=" << FFTW::GetClassName();
-    return oss;
-  }
+/* OT::String converter */
+OT::String FFTW::__repr__() const
+{
+  OT::OSS oss;
+  oss << "class=" << FFTW::GetClassName();
+  return oss;
+}
 
-  /* OT::String converter */
-  OT::String FFTW::__str__(const OT::String & offset) const
-  {
-    OT::OSS oss;
-    oss << "class=" << FFTW::GetClassName();
-    return oss;
-  }
+/* OT::String converter */
+OT::String FFTW::__str__(const OT::String & offset) const
+{
+  OT::OSS oss;
+  oss << "class=" << FFTW::GetClassName();
+  return oss;
+}
 
 
-  /* FFT transformation on complex */
-  FFTW::ComplexCollection FFTW::transform(const ComplexCollection & collection) const
-  {
-    return transform(collection, 0, collection.getSize());
-  }
+/* FFT transformation on complex */
+FFTW::ComplexCollection FFTW::transform(const ComplexCollection & collection) const
+{
+  return transform(collection, 0, collection.getSize());
+}
 
-  FFTW::ComplexCollection FFTW::transform(const ComplexCollection & collection,
-                                                   const OT::UnsignedInteger first,
-                                                   const OT::UnsignedInteger size) const
-  {
-    ComplexCollection result(size);
-    fftw_plan pForward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_FORWARD, FFTW_ESTIMATE));
-    fftw_execute(pForward);
-    fftw_destroy_plan(pForward);
-    return result;
-  }
+FFTW::ComplexCollection FFTW::transform(const ComplexCollection & collection,
+                                        const OT::UnsignedInteger first,
+                                        const OT::UnsignedInteger size) const
+{
+  ComplexCollection result(size);
+  fftw_plan pForward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_FORWARD, FFTW_ESTIMATE));
+  fftw_execute(pForward);
+  fftw_destroy_plan(pForward);
+  return result;
+}
 
-  /* FFT T transformation */
-  FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collection) const
-  {
-    return inverseTransform(collection, 0, collection.getSize());
-  }
+/* FFT T transformation */
+FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collection) const
+{
+  return inverseTransform(collection, 0, collection.getSize());
+}
 
-  FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collection,
-                                                          const OT::UnsignedInteger first,
-                                                          const OT::UnsignedInteger size) const
-  {
-    ComplexCollection result(size);
-    fftw_plan pBackward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_BACKWARD, FFTW_ESTIMATE));
-    fftw_execute(pBackward);
-    fftw_destroy_plan(pBackward);
-    for (OT::UnsignedInteger i = 0; i < size; ++i)
-      result[i] /= size;
-    return result;
-  }
+FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collection,
+    const OT::UnsignedInteger first,
+    const OT::UnsignedInteger size) const
+{
+  ComplexCollection result(size);
+  fftw_plan pBackward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_BACKWARD, FFTW_ESTIMATE));
+  fftw_execute(pBackward);
+  fftw_destroy_plan(pBackward);
+  for (OT::UnsignedInteger i = 0; i < size; ++i)
+    result[i] /= size;
+  return result;
+}
 
 } /* Namespace OTFFTW */
