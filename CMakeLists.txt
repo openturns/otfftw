@@ -5,7 +5,6 @@ option ( BUILD_DOC                    "Build the documentation"                 
 option ( LINK_PYTHON_LIBRARY          "Link python modules against python library"                            ON )
 option ( INSTALL_TESTS                "Install compiled tests for native platform testing"                    OFF )
 option ( BUILD_SHARED_LIBS            "Build shared libraries"                                                ON )
-option ( USE_SYSTEM_FFTW              "Use system FFTW libraries"                                             ON )
 
 # By default, build in Release mode. Must appear before project() command
 if ( NOT DEFINED CMAKE_BUILD_TYPE )
@@ -116,30 +115,10 @@ macro ( ot_add_current_dir_to_include_dirs )
   set ( INTERNAL_INCLUDE_DIRS ${inc_dirs} CACHE INTERNAL "List of directories with header files needed for build" )
 endmacro ( ot_add_current_dir_to_include_dirs )
 
-if ( USE_SYSTEM_FFTW )
-  find_package ( FFTW REQUIRED )
-endif ()
-if ( NOT FFTW_FOUND )
-  include ( ExternalProject )
-  set ( FFTW_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/fftw-prefix )
-  ExternalProject_Add ( fftw
-    URL ${CMAKE_CURRENT_SOURCE_DIR}/externals/fftw-3.3.4.tar.gz
-    URL_MD5 2edab8c06b24feeb3b82bbb3ebf3e7b3
-    PATCH_COMMAND patch --verbose -p1 -t -N < ${CMAKE_CURRENT_SOURCE_DIR}/externals/patch_no_mpi_no_doc
-    CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fftw-prefix/src/fftw/configure
-      --prefix=${FFTW_PREFIX}
-      --disable-shared
-      --enable-sse2
-      --disable-openmp
-      --disable-threads
-      "CFLAGS=-g -O3 -mtune=native -march=native -fPIC"
-  )
-  set ( FFTW_LIBRARIES ${FFTW_PREFIX}/lib/libfftw3.a )
-  set ( FFTW_INCLUDE_DIRS ${FFTW_PREFIX}/include )
-endif ()
-list ( APPEND OTFFTW_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS} )
-list ( APPEND OTFFTW_LIBRARIES ${FFTW_LIBRARIES} )
-list ( APPEND OTFFTW_LIBRARY_DIRS ${FFTW_LIBRARY_DIRS} )
+find_package (FFTW REQUIRED)
+list (APPEND OTFFTW_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS})
+list (APPEND OTFFTW_LIBRARIES ${FFTW_LIBRARIES})
+list (APPEND OTFFTW_LIBRARY_DIRS ${FFTW_LIBRARY_DIRS})
 include_directories(${FFTW_INCLUDE_DIRS})
 
 # The tests can't be run if this function is absent
@@ -158,7 +137,7 @@ endif ()
 
 set ( CPACK_PACKAGE_NAME          ${PACKAGE_NAME} )
 set ( CPACK_PACKAGE_VERSION_MAJOR 0              )
-set ( CPACK_PACKAGE_VERSION_MINOR 4              )
+set ( CPACK_PACKAGE_VERSION_MINOR 5              )
 set ( CPACK_PACKAGE_VERSION_PATCH                )
 set ( CPACK_SOURCE_GENERATOR      "TGZ;TBZ2"     )
 set ( CPACK_BINARY_STGZ           "OFF"          )

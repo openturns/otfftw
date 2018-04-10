@@ -15,4 +15,4 @@ if sys.platform.startswith('win'):
 
 from .otfftw import *
 
-__version__ = '0.0'
+__version__ = '0.5'

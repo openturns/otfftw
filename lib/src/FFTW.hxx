@@ -1,9 +1,8 @@
 //                                               -*- C++ -*-
 /**
- *  @file  FFTW.hxx
  *  @brief FFTW is an OpenTURNS interface to the fftw library for fast discrete Fourier transform
  *
- *  (C) Copyright 2005-2012 EDF-EADS-Phimeca
+ *  Copyright 2005-2018 Airbus-EDF-IMACS-Phimeca
  *
  *  OTFFTW is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,7 +15,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with OTMixmod.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with OTFFTW.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -31,46 +30,46 @@
 namespace OTFFTW
 {
 
-  /**
-   * @class FFTW
-   *
-   * FFTW is an OpenTURNS interface to the fftw library for fast discrete Fourier transform
-   */
-  class OTFFTW_API FFTW
-    : public OT::FFTImplementation
-  {
-    CLASSNAME;
+/**
+ * @class FFTW
+ *
+ * FFTW is an OpenTURNS interface to the fftw library for fast discrete Fourier transform
+ */
+class OTFFTW_API FFTW
+  : public OT::FFTImplementation
+{
+  CLASSNAME
 
-  public:
-    typedef OT::Collection<OT::Complex> ComplexCollection;
+public:
+  typedef OT::Collection<OT::Complex> ComplexCollection;
 
-    /** Default constructor without parameters */
-    FFTW();
+  /** Default constructor without parameters */
+  FFTW();
 
-    /** Virtual copy constructor */
-    FFTW * clone() const;
+  /** Virtual copy constructor */
+  FFTW * clone() const;
 
-    /** FFT transformation on complex */
-    ComplexCollection transform(const ComplexCollection & collection) const;
-    ComplexCollection transform(const ComplexCollection & collection,
-                                               const OT::UnsignedInteger first,
-                                               const OT::UnsignedInteger size) const;
+  /** FFT transformation on complex */
+  ComplexCollection transform(const ComplexCollection & collection) const;
+  ComplexCollection transform(const ComplexCollection & collection,
+                              const OT::UnsignedInteger first,
+                              const OT::UnsignedInteger size) const;
 
-    /** FFT inverse transformation */
-    ComplexCollection inverseTransform(const ComplexCollection & collection) const;
-    ComplexCollection inverseTransform(const ComplexCollection & collection,
-                                                      const OT::UnsignedInteger first,
-                                                      const OT::UnsignedInteger size) const;
+  /** FFT inverse transformation */
+  ComplexCollection inverseTransform(const ComplexCollection & collection) const;
+  ComplexCollection inverseTransform(const ComplexCollection & collection,
+                                     const OT::UnsignedInteger first,
+                                     const OT::UnsignedInteger size) const;
 
-    /** String converter */
-    OT::String __repr__() const;
+  /** String converter */
+  OT::String __repr__() const;
 
-    /** String converter */
-    OT::String __str__(const OT::String & offset = "") const;
+  /** String converter */
+  OT::String __str__(const OT::String & offset = "") const;
 
-  private:
+private:
 
-  } ; /* class FFTW */
+} ; /* class FFTW */
 
 
 } /* Namespace OTFFTW */

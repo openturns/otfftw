@@ -11,10 +11,9 @@ print("myFFTW=", myFFTW)
 size = 8
 data = ComplexCollection(size)
 for i in range(size):
-    data[i] = (i + 1.0) -0.2j * (i + 1.0)
+    data[i] = (i + 1.0) - 0.2j * (i + 1.0)
 print("data=", data)
 result = myFFTW.transform(data)
 print("result=", result)
 print("ref   =", KissFFT().transform(data))
 print("back=", myFFTW.inverseTransform(result))
-
