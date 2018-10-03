@@ -74,6 +74,7 @@ Python textual interface to OTFFTW uncertainty library
 %build
 %cmake -DINSTALL_DESTDIR:PATH=%{buildroot} \
        -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
+       -DPYTHON_EXECUTABLE=/usr/bin/python \
        -DBUILD_DOC=OFF .
 make %{?_smp_mflags}
 
