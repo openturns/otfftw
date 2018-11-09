@@ -25,10 +25,6 @@ target_link_libraries ( otfftw ${OTFFTW_LIBRARIES} )
 target_link_libraries ( otfftw ${OPENTURNS_LIBRARIES} )
 target_link_libraries ( otfftw ${FFTW_LIBRARIES} )
 
-if (NOT FFTW_FOUND)
-  add_dependencies (otfftw fftw)
-endif ()
-
 install ( TARGETS otfftw
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION ${OTFFTW_LIBRARY_PATH}

@@ -16,7 +16,7 @@
 %import uncertainty_module.i
 
 // The new classes
-%include OTFFTWprivate.hxx
+%include otfftw/OTFFTWprivate.hxx
 %include FFTW.i
 
 
