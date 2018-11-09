@@ -25,7 +25,7 @@
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
 #include <openturns/FFTImplementation.hxx>
-#include "OTFFTWprivate.hxx"
+#include "otfftw/OTFFTWprivate.hxx"
 
 namespace OTFFTW
 {

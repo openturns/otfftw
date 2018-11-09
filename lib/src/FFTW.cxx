@@ -21,7 +21,7 @@
 
 #include "fftw3.h"
 #include <openturns/OTtypes.hxx>
-#include "FFTW.hxx"
+#include "otfftw/FFTW.hxx"
 #include <openturns/PersistentObjectFactory.hxx>
 
 namespace OTFFTW

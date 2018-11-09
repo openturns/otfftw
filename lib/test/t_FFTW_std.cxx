@@ -1,7 +1,7 @@
 #include <iostream>
 // OT includes
 #include <openturns/OT.hxx>
-#include "FFTW.hxx"
+#include "otfftw/FFTW.hxx"
 using namespace OT;
 
 
