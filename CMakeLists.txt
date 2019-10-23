@@ -18,7 +18,9 @@ list ( APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
 
 find_package (OpenTURNS NO_MODULE REQUIRED)
 message (STATUS "Found OpenTURNS: ${OPENTURNS_ROOT_DIR} (found version \"${OPENTURNS_VERSION_STRING}\")")
-include ( ${OPENTURNS_USE_FILE} )
+if (CMAKE_VERSION VERSION_LESS 3)
+  include (${OPENTURNS_USE_FILE})
+endif ()
 
 find_package (FFTW REQUIRED)
 list (APPEND OTFFTW_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS})
@@ -40,8 +42,14 @@ set ( OTFFTW_EXAMPLE_PATH ${OTFFTW_DATA_PATH}/${PACKAGE_NAME}/examples )
 set ( OTFFTW_CONFIG_CMAKE_PATH lib${LIB_SUFFIX}/cmake/otfftw )
 set (OTFFTW_DOC_PATH share/${PACKAGE_NAME}/doc)
 
+if (NOT CMAKE_VERSION VERSION_LESS 3.1)
+  # beware swig<3.0 does not like c++11: https://github.com/swig/swig/issues/73
+  set (CMAKE_CXX_STANDARD 11)
+endif ()
+
+
 find_package (PythonInterp)
-find_package (PythonLibs)
+find_package (PythonLibs ${PYTHON_VERSION_STRING} EXACT)
 
 
 if (BUILD_PYTHON)
@@ -51,6 +59,7 @@ if (BUILD_PYTHON)
     if (SWIG_EXECUTABLE)
       set (SWIG_USE_FILE ${CMAKE_ROOT}/Modules/UseSWIG.cmake)
       set (SWIG_FOUND TRUE)
+      set (SWIG_VERSION 2)
     endif ()
   else ()
     # we need absolute module imports
@@ -142,7 +151,7 @@ endmacro ( ot_add_current_dir_to_include_dirs )
 
 set ( CPACK_PACKAGE_NAME          ${PACKAGE_NAME} )
 set ( CPACK_PACKAGE_VERSION_MAJOR 0              )
-set ( CPACK_PACKAGE_VERSION_MINOR 6              )
+set ( CPACK_PACKAGE_VERSION_MINOR 7              )
 set ( CPACK_PACKAGE_VERSION_PATCH                )
 set ( CPACK_SOURCE_GENERATOR      "TGZ;TBZ2"     )
 set (CPACK_BINARY_STGZ    OFF CACHE BOOL "STGZ")
