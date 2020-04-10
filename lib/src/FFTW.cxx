@@ -56,7 +56,7 @@ OT::String FFTW::__repr__() const
 OT::String FFTW::__str__(const OT::String & offset) const
 {
   OT::OSS oss;
-  oss << "class=" << FFTW::GetClassName();
+  oss << offset << FFTW::GetClassName();
   return oss;
 }
 
