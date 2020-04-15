@@ -5,7 +5,7 @@
 using namespace OT;
 
 
-int main(int argc, char **argv)
+int main()
 {
   OTFFTW::FFTW myFFTW;
   std::cout << "myFFTW=" << myFFTW << std::endl;

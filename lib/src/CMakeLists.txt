@@ -14,7 +14,7 @@ if ( BUILD_SHARED_LIBS )
 endif ()
 
 if ( NOT DEFINED LIB_VERSION ) 
-  set ( LIB_VERSION 0.1.0 )
+  set ( LIB_VERSION 0.0.0 )
 endif ()
 if ( NOT DEFINED LIB_SOVERSION ) 
   set ( LIB_SOVERSION 0 )

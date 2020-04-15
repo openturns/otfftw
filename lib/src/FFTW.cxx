@@ -19,7 +19,7 @@
  *
  */
 
-#include "fftw3.h"
+#include <fftw3.h>
 #include <openturns/OTtypes.hxx>
 #include "otfftw/FFTW.hxx"
 #include <openturns/PersistentObjectFactory.hxx>
