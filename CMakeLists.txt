@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8.8)
+cmake_minimum_required (VERSION 3.2)
 
 option ( BUILD_PYTHON                 "Build the python module for the library"                               ON )
 option ( BUILD_DOC                    "Build the documentation"                                               ON )
@@ -16,11 +16,8 @@ string ( TOLOWER ${CMAKE_PROJECT_NAME} PACKAGE_NAME )
 # set module dir to find custom scripts
 list ( APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
 
-find_package (OpenTURNS NO_MODULE REQUIRED)
+find_package (OpenTURNS CONFIG REQUIRED)
 message (STATUS "Found OpenTURNS: ${OPENTURNS_ROOT_DIR} (found version \"${OPENTURNS_VERSION_STRING}\")")
-if (CMAKE_VERSION VERSION_LESS 3)
-  include (${OPENTURNS_USE_FILE})
-endif ()
 
 find_package (FFTW REQUIRED)
 list (APPEND OTFFTW_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS})
@@ -38,33 +35,15 @@ set ( OTFFTW_LIBRARY_PATH lib${LIB_SUFFIX} )
 set ( OTFFTW_INCLUDE_PATH include)
 set ( OTFFTW_SWIG_INCLUDE_DIRS ${OTFFTW_INCLUDE_PATH}/${PACKAGE_NAME}/swig )
 set ( OTFFTW_DATA_PATH share )
-set ( OTFFTW_EXAMPLE_PATH ${OTFFTW_DATA_PATH}/${PACKAGE_NAME}/examples )
 set ( OTFFTW_CONFIG_CMAKE_PATH lib${LIB_SUFFIX}/cmake/otfftw )
 set (OTFFTW_DOC_PATH share/${PACKAGE_NAME}/doc)
 
-if (NOT CMAKE_VERSION VERSION_LESS 3.1)
-  # beware swig<3.0 does not like c++11: https://github.com/swig/swig/issues/73
-  set (CMAKE_CXX_STANDARD 11)
-endif ()
-
-
-find_package (PythonInterp)
-find_package (PythonLibs ${PYTHON_VERSION_STRING} EXACT)
-
+set (CMAKE_CXX_STANDARD 11)
 
 if (BUILD_PYTHON)
-  # workaround for cmake bug #0013449
-  if (CMAKE_VERSION VERSION_LESS 3 AND DEFINED CMAKE_FIND_ROOT_PATH)
-    find_program (SWIG_EXECUTABLE NAMES swig2.0 swig)
-    if (SWIG_EXECUTABLE)
-      set (SWIG_USE_FILE ${CMAKE_ROOT}/Modules/UseSWIG.cmake)
-      set (SWIG_FOUND TRUE)
-      set (SWIG_VERSION 2)
-    endif ()
-  else ()
-    # we need absolute module imports
-    find_package (SWIG 2.0.9)
-  endif ()
+  find_package (PythonInterp)
+  find_package (PythonLibs ${PYTHON_VERSION_STRING} EXACT)
+  find_package (SWIG 3)
 
   if (PYTHONINTERP_FOUND)
     if (DEFINED PYTHON_SITE_PACKAGES)
