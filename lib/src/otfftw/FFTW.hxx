@@ -47,25 +47,25 @@ public:
   FFTW();
 
   /** Virtual copy constructor */
-  FFTW * clone() const;
+  FFTW * clone() const override;
 
   /** FFT transformation on complex */
-  ComplexCollection transform(const ComplexCollection & collection) const;
+  ComplexCollection transform(const ComplexCollection & collection) const override;
   ComplexCollection transform(const ComplexCollection & collection,
                               const OT::UnsignedInteger first,
-                              const OT::UnsignedInteger size) const;
+                              const OT::UnsignedInteger size) const override;
 
   /** FFT inverse transformation */
-  ComplexCollection inverseTransform(const ComplexCollection & collection) const;
+  ComplexCollection inverseTransform(const ComplexCollection & collection) const override;
   ComplexCollection inverseTransform(const ComplexCollection & collection,
                                      const OT::UnsignedInteger first,
-                                     const OT::UnsignedInteger size) const;
+                                     const OT::UnsignedInteger size) const override;
 
   /** String converter */
-  OT::String __repr__() const;
+  OT::String __repr__() const override;
 
   /** String converter */
-  OT::String __str__(const OT::String & offset = "") const;
+  OT::String __str__(const OT::String & offset = "") const override;
 
 private:
 
