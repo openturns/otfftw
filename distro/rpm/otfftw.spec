@@ -54,13 +54,6 @@ Requires:       openturns-devel
 %description devel
 Development files for OTFFTW library.
 
-%package examples
-Summary:        OTFFTW examples
-Group:          Productivity/Scientific/Math
-
-%description examples
-Example files for OTFFTW
-
 %package -n python3-%{name}
 Summary:        OTTemplate library
 Group:          Productivity/Scientific/Math
@@ -103,11 +96,6 @@ rm -rf %{buildroot}
 %{_includedir}/%{name}/swig/
 %{_libdir}/*.so
 %{_libdir}/cmake/
-
-%files examples
-%defattr(-,root,root,-)
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/examples/
 
 %files -n python3-%{name}
 %defattr(-,root,root,-)
