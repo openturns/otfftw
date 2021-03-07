@@ -127,18 +127,19 @@ if ( NOT FFTW_FOUND )
   include ( ExternalProject )
   set ( FFTW_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/fftw-prefix )
   ExternalProject_Add ( fftw
-    URL ${CMAKE_CURRENT_SOURCE_DIR}/externals/fftw-3.3.4.tar.gz
-    URL_MD5 2edab8c06b24feeb3b82bbb3ebf3e7b3
-    PATCH_COMMAND patch --verbose -p1 -t -N < ${CMAKE_CURRENT_SOURCE_DIR}/externals/patch_no_mpi_no_doc
+    URL ${CMAKE_CURRENT_SOURCE_DIR}/externals/fftw-3.3.9.tar.gz
+    URL_MD5 50145bb68a8510b5d77605f11cadf8dc
     CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/fftw-prefix/src/fftw/configure
       --prefix=${FFTW_PREFIX}
       --disable-shared
       --enable-sse2
-      --disable-openmp
-      --disable-threads
+      --enable-avx2
+      --enable-avx512
+      --enable-avx-128-fma
+      --enable-generic-simd128
       "CFLAGS=-g -O3 -mtune=native -march=native -fPIC"
   )
-  set ( FFTW_LIBRARIES ${FFTW_PREFIX}/lib/libfftw3.a )
+  set ( FFTW_LIBRARIES ${FFTW_PREFIX}/lib/libfftw3.a)
   set ( FFTW_INCLUDE_DIRS ${FFTW_PREFIX}/include )
 endif ()
 list ( APPEND OTFFTW_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS} )
