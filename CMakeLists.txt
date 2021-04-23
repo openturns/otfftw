@@ -31,11 +31,15 @@ if (NOT BUILD_SHARED_LIBS)
 endif ()
 add_definitions ( ${OTFFTW_DEFINITIONS} )
 
-set ( OTFFTW_LIBRARY_PATH lib${LIB_SUFFIX} )
-set ( OTFFTW_INCLUDE_PATH include)
-set ( OTFFTW_SWIG_INCLUDE_DIRS ${OTFFTW_INCLUDE_PATH}/${PACKAGE_NAME}/swig )
-set ( OTFFTW_DATA_PATH share )
-set ( OTFFTW_CONFIG_CMAKE_PATH lib${LIB_SUFFIX}/cmake/otfftw )
+if (NOT DEFINED CMAKE_INSTALL_LIBDIR)
+  set (CMAKE_INSTALL_LIBDIR lib${LIB_SUFFIX})
+endif ()
+
+set (OTFFTW_LIBRARY_PATH ${CMAKE_INSTALL_LIBDIR})
+set (OTFFTW_INCLUDE_PATH include)
+set (OTFFTW_SWIG_INCLUDE_DIRS ${OTFFTW_INCLUDE_PATH}/${PACKAGE_NAME}/swig)
+set (OTFFTW_DATA_PATH share)
+set (OTFFTW_CONFIG_CMAKE_PATH ${CMAKE_INSTALL_LIBDIR}/cmake/otfftw)
 set (OTFFTW_DOC_PATH share/${PACKAGE_NAME}/doc)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -47,26 +51,13 @@ if (BUILD_PYTHON)
 
   if (PYTHONINTERP_FOUND)
     if (DEFINED PYTHON_SITE_PACKAGES)
-      set (OTFFTW_PYTHON_MODULE_PATH ${PYTHON_SITE_PACKAGES})
-
+      set (OTFFTW_PYTHON_MODULE_PATH "${PYTHON_SITE_PACKAGES}")
     else ()
-      execute_process ( COMMAND ${PYTHON_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(plat_specific=True, prefix='${CMAKE_INSTALL_PREFIX}'))"
-                        OUTPUT_VARIABLE _ABS_PYTHON_MODULE_PATH
-                        RESULT_VARIABLE _PYTHON_pythonlib_result
-                        OUTPUT_STRIP_TRAILING_WHITESPACE )
-
-      if (_PYTHON_pythonlib_result)
-        message (SEND_ERROR "Could not run ${PYTHON_EXECUTABLE}")
+     if (WIN32)
+       set (OTFFTW_PYTHON_MODULE_PATH Lib/site-packages)
+     else ()
+       set (OTFFTW_PYTHON_MODULE_PATH ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages)
       endif ()
-
-      get_filename_component (_ABS_PYTHON_MODULE_PATH ${_ABS_PYTHON_MODULE_PATH} ABSOLUTE)
-      file (RELATIVE_PATH OTFFTW_PYTHON_MODULE_PATH ${CMAKE_INSTALL_PREFIX} ${_ABS_PYTHON_MODULE_PATH})
-    endif ()
-
-    if (IS_ABSOLUTE ${OTFFTW_PYTHON_MODULE_PATH})
-      set (PYTHON_MODULE_PATH ${OTFFTW_PYTHON_MODULE_PATH})
-    else ()
-      set (PYTHON_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/${OTFFTW_PYTHON_MODULE_PATH})
     endif ()
 
     set (OTFFTW_PYTHON${PYTHON_VERSION_MAJOR}_MODULE_PATH ${OTFFTW_PYTHON_MODULE_PATH})
@@ -130,7 +121,7 @@ endmacro ( ot_add_current_dir_to_include_dirs )
 
 set ( CPACK_PACKAGE_NAME          ${PACKAGE_NAME} )
 set ( CPACK_PACKAGE_VERSION_MAJOR 0              )
-set ( CPACK_PACKAGE_VERSION_MINOR 10              )
+set ( CPACK_PACKAGE_VERSION_MINOR 11              )
 set ( CPACK_PACKAGE_VERSION_PATCH                )
 set ( CPACK_SOURCE_GENERATOR      "TGZ;TBZ2"     )
 set (CPACK_BINARY_STGZ    OFF CACHE BOOL "STGZ")
