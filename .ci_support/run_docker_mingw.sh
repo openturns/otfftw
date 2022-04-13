@@ -11,6 +11,7 @@ CXXFLAGS="-Wall -Wextra -D_GLIBCXX_ASSERTIONS" ${ARCH}-w64-mingw32-cmake \
   -DPYTHON_INCLUDE_DIR=${MINGW_PREFIX}/include/python${PYMAJMIN} \
   -DPYTHON_LIBRARY=${MINGW_PREFIX}/lib/libpython${PYMAJMIN}.dll.a \
   -DPYTHON_EXECUTABLE=/usr/bin/${ARCH}-w64-mingw32-python${PYMAJMIN}-bin \
+  -DBUILD_DOC=OFF \
   /io
 make install
 ${ARCH}-w64-mingw32-strip --strip-unneeded ${PREFIX}/bin/*.dll ${PREFIX}/Lib/site-packages/*/*.pyd

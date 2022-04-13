@@ -9,6 +9,7 @@ make install
 make tests
 ctest --output-on-failure --timeout 100 ${MAKEFLAGS}
 
+exit 0
 uid=$1
 gid=$2
 if test -n "${uid}" -a -n "${gid}"
