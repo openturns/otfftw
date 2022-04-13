@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/openturns/otfftw.svg?branch=master
-    :target: https://travis-ci.org/openturns/otfftw
+.. image:: https://github.com/openturns/otfftw/actions/workflows/build.yml/badge.svg?branch=master
+    :target: https://github.com/openturns/otfftw/actions/workflows/build.yml
 
 OTFFTW Module
 =============
