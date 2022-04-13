@@ -45,7 +45,7 @@ set (OTFFTW_DOC_PATH share/${PACKAGE_NAME}/doc)
 set (CMAKE_CXX_STANDARD 11)
 
 if (BUILD_PYTHON)
-  find_package (PythonInterp)
+  find_package (PythonInterp 3)
   find_package (PythonLibs ${PYTHON_VERSION_STRING} EXACT)
   find_package (SWIG 3)
 
@@ -121,7 +121,7 @@ endmacro ( ot_add_current_dir_to_include_dirs )
 
 set ( CPACK_PACKAGE_NAME          ${PACKAGE_NAME} )
 set ( CPACK_PACKAGE_VERSION_MAJOR 0              )
-set ( CPACK_PACKAGE_VERSION_MINOR 11              )
+set ( CPACK_PACKAGE_VERSION_MINOR 12              )
 set ( CPACK_PACKAGE_VERSION_PATCH                )
 set ( CPACK_SOURCE_GENERATOR      "TGZ;TBZ2"     )
 set (CPACK_BINARY_STGZ    OFF CACHE BOOL "STGZ")
