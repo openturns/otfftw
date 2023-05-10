@@ -1,23 +1,37 @@
-cmake_minimum_required (VERSION 3.2)
+cmake_minimum_required (VERSION 3.13)
 
 option ( BUILD_PYTHON                 "Build the python module for the library"                               ON )
 option ( BUILD_DOC                    "Build the documentation"                                               ON )
 option ( BUILD_SHARED_LIBS            "Build shared libraries"                                                ON )
 
 # By default, build in Release mode. Must appear before project() command
-if ( NOT DEFINED CMAKE_BUILD_TYPE )
-   set( CMAKE_BUILD_TYPE Release CACHE STRING "Build type")
-endif ()
+set( CMAKE_BUILD_TYPE Release CACHE STRING "Build type")
 
 project (otfftw)
 
-string ( TOLOWER ${CMAKE_PROJECT_NAME} PACKAGE_NAME )
+string (TOLOWER ${CMAKE_PROJECT_NAME} PACKAGE_NAME)
 
 # set module dir to find custom scripts
-list ( APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
+list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+if (POLICY CMP0042)
+  # MACOSX_RPATH is enabled by default
+  cmake_policy(SET CMP0042 NEW)
+endif()
+if (POLICY CMP0078)
+  # UseSWIG generates standard target names
+  cmake_policy(SET CMP0078 NEW)
+endif()
+if (POLICY CMP0086)
+  # UseSWIG honors SWIG_MODULE_NAME via -module flag
+  cmake_policy(SET CMP0086 NEW)
+endif()
 
 find_package (OpenTURNS CONFIG REQUIRED)
 message (STATUS "Found OpenTURNS: ${OPENTURNS_ROOT_DIR} (found version \"${OPENTURNS_VERSION_STRING}\")")
+if (NOT DEFINED OPENTURNS_PYTHON_MODULE_PATH)
+  set (OPENTURNS_PYTHON_MODULE_PATH ${OPENTURNS_PYTHON3_MODULE_PATH})
+endif ()
 
 find_package (FFTW REQUIRED)
 list (APPEND OTFFTW_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS})
@@ -45,23 +59,42 @@ set (OTFFTW_DOC_PATH share/${PACKAGE_NAME}/doc)
 set (CMAKE_CXX_STANDARD 11)
 
 if (BUILD_PYTHON)
-  find_package (PythonInterp 3)
-  find_package (PythonLibs ${PYTHON_VERSION_STRING} EXACT)
   find_package (SWIG 3)
+  include (${SWIG_USE_FILE})
 
-  if (PYTHONINTERP_FOUND)
+  if (CMAKE_VERSION VERSION_LESS 3.24)
+    find_package (Python 3.5 COMPONENTS Interpreter Development)
+  else ()
+    find_package (Python 3.5 COMPONENTS Interpreter Development.Module)
+  endif ()
+
+  if (Python_FOUND)
+	  #include (FindPythonModule)
+    if (NOT TARGET Python::Module)
+      include (TargetLinkLibrariesWithDynamicLookup)
+    endif ()
+
+    if (USE_SPHINX)
+      find_program (SPHINX_EXECUTABLE NAMES sphinx-build DOC "Sphinx Documentation Builder (sphinx-doc.org)")
+      find_python_module (numpydoc)
+      if (SPHINX_EXECUTABLE AND NUMPYDOC_FOUND)
+        find_python_module (sphinx 1.1)
+      endif ()
+      if (NOT SPHINX_FOUND)
+        message (STATUS "Disabling documentation (need sphinx/pandoc/numpydoc)")
+      endif ()
+    endif ()
+
     if (DEFINED PYTHON_SITE_PACKAGES)
       set (OTFFTW_PYTHON_MODULE_PATH "${PYTHON_SITE_PACKAGES}")
     else ()
      if (WIN32)
        set (OTFFTW_PYTHON_MODULE_PATH Lib/site-packages)
      else ()
-       set (OTFFTW_PYTHON_MODULE_PATH ${CMAKE_INSTALL_LIBDIR}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages)
+       set (OTFFTW_PYTHON_MODULE_PATH ${CMAKE_INSTALL_LIBDIR}/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages)
       endif ()
     endif ()
-
-    set (OTFFTW_PYTHON${PYTHON_VERSION_MAJOR}_MODULE_PATH ${OTFFTW_PYTHON_MODULE_PATH})
-  endif ( PYTHONINTERP_FOUND )
+  endif ()
 endif ()
 
 
@@ -80,37 +113,21 @@ endforeach ()
 # RPATH settings
 set (CMAKE_INSTALL_RPATH ${LIBRARY_PATH})
 set (CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-if (POLICY CMP0042)
-  # MACOSX_RPATH is enabled by default
-  cmake_policy(SET CMP0042 NEW)
-endif()
-if (POLICY CMP0078)
-  # UseSWIG generates standard target names
-  cmake_policy(SET CMP0078 NEW)
-endif()
-if (POLICY CMP0086)
-  # UseSWIG honors SWIG_MODULE_NAME via -module flag
-  cmake_policy(SET CMP0086 NEW)
-endif()
 
 # Some useful macros to ease CMakeLists.txt file writing
-set ( SOURCEFILES "" CACHE INTERNAL "List of source files to compile" )
-macro ( ot_add_source_file FILENAME )
-  set ( sf ${SOURCEFILES} ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME} )
-  set ( SOURCEFILES ${sf} CACHE INTERNAL "List of source files to compile" )
-endmacro ( ot_add_source_file )
+set (SOURCEFILES "" CACHE INTERNAL "List of source files to compile")
+macro (ot_add_source_file FILENAME)
+  set (sf ${SOURCEFILES} ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME})
+  set (SOURCEFILES ${sf} CACHE INTERNAL "List of source files to compile")
+endmacro ()
 
-set ( HEADERFILES "" CACHE INTERNAL "List of header files to install" )
-macro ( ot_install_header_file FILENAME )
-  set ( hf ${HEADERFILES} ${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE_NAME}/${FILENAME} )
-  set ( HEADERFILES ${hf} CACHE INTERNAL "List of header files to install" )
-endmacro ( ot_install_header_file )
+macro (ot_install_header_file FILENAME)
+  install (FILES ${PACKAGE_NAME}/${FILENAME} DESTINATION ${OTFFTW_INCLUDE_PATH}/${PACKAGE_NAME})
+endmacro ()
 
-set ( SWIGFILES "" CACHE INTERNAL "List of SWIG files to install" )
-macro ( ot_install_swig_file FILENAME )
-  set ( hf ${SWIGFILES} ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME} )
-  set ( SWIGFILES ${hf} CACHE INTERNAL "List of SWIG files to install" )
-endmacro ( ot_install_swig_file )
+macro (ot_install_swig_file FILENAME)
+  install (FILES ${FILENAME} DESTINATION ${OTFFTW_SWIG_INCLUDE_DIRS})
+endmacro ()
 
 set ( INTERNAL_INCLUDE_DIRS "" CACHE INTERNAL "List of directories with header files needed for build" )
 macro ( ot_add_current_dir_to_include_dirs )
@@ -146,8 +163,7 @@ add_custom_target (installcheck COMMENT "Run post-installation tests")
 add_subdirectory (lib)
 add_dependencies (check cppcheck)
 
-
-if (PYTHONINTERP_FOUND AND PYTHONLIBS_FOUND AND SWIG_FOUND)
+if (Python_FOUND AND SWIG_FOUND)
   add_subdirectory (python)
   add_dependencies (installcheck pyinstallcheck)
 endif ()
