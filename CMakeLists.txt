@@ -196,14 +196,12 @@ set ( OTFFTW_VERSION_STRING ${PACKAGE_VERSION} )
 set ( OTFFTW_VERSION_MAJOR ${CPACK_PACKAGE_VERSION_MAJOR} )
 set ( OTFFTW_VERSION_MINOR ${CPACK_PACKAGE_VERSION_MINOR} )
 set ( OTFFTW_VERSION_PATCH ${CPACK_PACKAGE_VERSION_PATCH} )
-set ( OTFFTW_USE_FILE      ${CONFIG_CMAKE_PATH}/Useotfftw.cmake )
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file (cmake/otfftwConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/otfftwConfig.cmake
   INSTALL_DESTINATION ${OTFFTW_CONFIG_CMAKE_PATH}
   PATH_VARS
-    OTFFTW_USE_FILE
     OTFFTW_ROOT_DIR
     OTFFTW_INCLUDE_DIR
     OTFFTW_INCLUDE_DIRS
@@ -213,8 +211,7 @@ configure_package_config_file (cmake/otfftwConfig.cmake.in
 
 write_basic_package_version_file (otfftwConfigVersion.cmake VERSION ${OTFFTW_VERSION_STRING} COMPATIBILITY AnyNewerVersion)
 
-install (FILES cmake/Useotfftw.cmake
-               ${CMAKE_CURRENT_BINARY_DIR}/otfftwConfig.cmake
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/otfftwConfig.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/otfftwConfigVersion.cmake
          DESTINATION ${OTFFTW_CONFIG_CMAKE_PATH})
 

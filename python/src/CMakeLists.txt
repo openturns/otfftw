@@ -84,10 +84,6 @@ install ( FILES __init__.py
           DESTINATION ${OTFFTW_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
         )
 
-install ( FILES ${SWIGFILES}
-	DESTINATION ${OTFFTW_SWIG_INCLUDE_DIRS}
-        )
-
 # wheel files
 configure_file (METADATA.in METADATA @ONLY)
 configure_file (WHEEL.in WHEEL @ONLY)
