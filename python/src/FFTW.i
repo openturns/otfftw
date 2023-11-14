@@ -4,5 +4,6 @@
 #include "otfftw/FFTW.hxx"
 %}
 
+%copyctor OTFFTW::FFTW;
+
 %include otfftw/FFTW.hxx
-namespace OTFFTW { %extend FFTW { FFTW(const FFTW & other) { return new OTFFTW::FFTW(other); } } }
