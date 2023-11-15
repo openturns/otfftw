@@ -37,8 +37,8 @@ macro (ot_pyinstallcheck_test TESTNAME)
 endmacro ()
 
 
-ot_pyinstallcheck_test (MyClass_std)
-ot_pyinstallcheck_test (docstring)
+ot_pyinstallcheck_test (FFTW_std)
+
 
 if (MATPLOTLIB_FOUND)
   file (GLOB_RECURSE PYFILES "${PROJECT_SOURCE_DIR}/python/doc/examples/*.py")
