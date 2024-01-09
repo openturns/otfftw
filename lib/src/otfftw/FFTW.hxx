@@ -2,7 +2,7 @@
 /**
  *  @brief FFTW is an OpenTURNS interface to the fftw library for fast discrete Fourier transform
  *
- *  Copyright 2005-2018 Airbus-EDF-IMACS-Phimeca
+ *  Copyright 2005-2024 Airbus-EDF-IMACS-Phimeca
  *
  *  OTFFTW is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
