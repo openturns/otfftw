@@ -42,10 +42,6 @@ if (NOT BUILD_SHARED_LIBS)
 endif ()
 add_definitions ( ${OTFFTW_DEFINITIONS} )
 
-if (NOT DEFINED CMAKE_INSTALL_LIBDIR)
-  set (CMAKE_INSTALL_LIBDIR lib${LIB_SUFFIX})
-endif ()
-
 include (GNUInstallDirs)
 
 set (OTFFTW_LIBRARY_PATH ${CMAKE_INSTALL_LIBDIR})
