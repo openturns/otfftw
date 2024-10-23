@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.13)
 
 option ( BUILD_PYTHON                 "Build the python module for the library"                               ON )
-option ( BUILD_DOC                    "Build the documentation"                                               ON )
+option ( BUILD_DOC                    "Build the documentation"                                               OFF )
 option ( BUILD_SHARED_LIBS            "Build shared libraries"                                                ON )
 
 # By default, build in Release mode. Must appear before project() command
@@ -83,9 +83,9 @@ if (BUILD_PYTHON)
     endif ()
 
     if (WIN32)
-      set (OTFFTW_PYTHON_MODULE_PATH Lib/site-packages CACHE PATH "site-packages dir")
+      set (OTFFTW_PYTHON_MODULE_PATH Lib/site-packages CACHE STRING "site-packages dir")
     else ()
-      set (OTFFTW_PYTHON_MODULE_PATH ${CMAKE_INSTALL_LIBDIR}/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages CACHE PATH "site-packages dir")
+      set (OTFFTW_PYTHON_MODULE_PATH ${CMAKE_INSTALL_LIBDIR}/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages CACHE STRING "site-packages dir")
     endif ()
   endif ()
 endif ()

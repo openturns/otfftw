@@ -8,7 +8,7 @@ cmake -DCMAKE_INSTALL_PREFIX=~/.local \
       -DCMAKE_UNITY_BUILD=ON \
       -DCMAKE_CXX_FLAGS="-Wall -Wextra -Wpedantic -Wshadow -Werror -D_GLIBCXX_ASSERTIONS" \
       -DSWIG_COMPILE_FLAGS="-O1 -Wno-unused-parameter -Wno-shadow" \
-      -DUSE_SPHINX=OFF -DSPHINX_FLAGS="-W -T -j4" \
+      -DBUILD_DOC=ON -DUSE_SPHINX=OFF -DSPHINX_FLAGS="-W -T -j4" \
       /io
 make install
 make tests
