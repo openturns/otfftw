@@ -1,7 +1,6 @@
 // SWIG file
 
 %module(docstring="otfftw module") otfftw
-%feature("autodoc","1");
 
 %{
 #include <openturns/OT.hxx>
