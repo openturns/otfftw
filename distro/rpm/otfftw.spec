@@ -14,7 +14,7 @@ FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
 %__cmake -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix}
 
 Name:           otfftw
-Version:        0.16
+Version:        0.17
 Release:        0%{?dist}
 Summary:        OpenTURNS module
 Group:          System Environment/Libraries
