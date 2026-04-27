@@ -1,17 +1,11 @@
 
-if (MINGW AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-  add_library (CRT_fp8 STATIC CRT_fp8.c)
-endif ()
-
 set (CHECK_TO_BE_RUN)
 macro (ot_check_test TESTNAME)
   set (TEST_TARGET t_${TESTNAME})
   add_executable (${TEST_TARGET} EXCLUDE_FROM_ALL ${TEST_TARGET}.cxx)
   add_dependencies(tests ${TEST_TARGET})
+  target_include_directories (${TEST_TARGET} PRIVATE ${INTERNAL_INCLUDE_DIRS})
   target_link_libraries (${TEST_TARGET} PRIVATE otfftw)
-  if (MINGW AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-    target_link_libraries (${TEST_TARGET} PRIVATE CRT_fp8)
-  endif ()
   set_target_properties (${TEST_TARGET} PROPERTIES
                          UNITY_BUILD OFF
                          INSTALL_RPATH "${PROJECT_BINARY_DIR}/lib/src;${CMAKE_INSTALL_RPATH}")
@@ -33,8 +27,6 @@ macro (ot_check_test TESTNAME)
   endif ()
   list (APPEND CHECK_TO_BE_RUN ${TEST_TARGET})
 endmacro ()
-
-include_directories ( ${INTERNAL_INCLUDE_DIRS} )
 
 
 

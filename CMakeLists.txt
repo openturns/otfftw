@@ -15,7 +15,7 @@ string (TOLOWER ${CMAKE_PROJECT_NAME} PACKAGE_NAME)
 list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 find_package (OpenTURNS CONFIG REQUIRED)
-message (STATUS "Found OpenTURNS: ${OPENTURNS_ROOT_DIR} (found version \"${OPENTURNS_VERSION_STRING}\")")
+message (STATUS "Found OpenTURNS: ${OpenTURNS_DIR} (found version \"${OpenTURNS_VERSION}\")")
 
 find_package (FFTW REQUIRED)
 list (APPEND OTFFTW_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS})
