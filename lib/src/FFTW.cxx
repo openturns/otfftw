@@ -19,6 +19,7 @@
  *
  */
 
+#include <climits>
 #include <fftw3.h>
 #include <openturns/OTtypes.hxx>
 #include "otfftw/FFTW.hxx"
@@ -52,7 +53,6 @@ OT::String FFTW::__repr__() const
   return oss;
 }
 
-/* OT::String converter */
 OT::String FFTW::__str__(const OT::String & offset) const
 {
   OT::OSS oss;
@@ -71,8 +71,15 @@ FFTW::ComplexCollection FFTW::transform(const ComplexCollection & collection,
                                         const OT::UnsignedInteger first,
                                         const OT::UnsignedInteger size) const
 {
+  if (size == 0) return ComplexCollection(0);
+  if (first + size > collection.getSize())
+    throw OT::OutOfBoundException(HERE) << "Index out of range";
+  if (size > static_cast<OT::UnsignedInteger>(INT_MAX))
+    throw OT::InternalException(HERE) << "Size too large for FFTW";
   ComplexCollection result(size);
-  fftw_plan pForward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_FORWARD, FFTW_ESTIMATE));
+  ComplexCollection input(collection.begin() + first, collection.begin() + first + size);
+  fftw_plan pForward(fftw_plan_dft_1d(static_cast<int>(size), reinterpret_cast<fftw_complex *>(&input[0]), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_FORWARD, FFTW_ESTIMATE));
+  if (!pForward) throw OT::InternalException(HERE) << "FFTW plan creation failed";
   fftw_execute(pForward);
   fftw_destroy_plan(pForward);
   return result;
@@ -88,8 +95,15 @@ FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collect
     const OT::UnsignedInteger first,
     const OT::UnsignedInteger size) const
 {
+  if (size == 0) return ComplexCollection(0);
+  if (first + size > collection.getSize())
+    throw OT::OutOfBoundException(HERE) << "Index out of range";
+  if (size > static_cast<OT::UnsignedInteger>(INT_MAX))
+    throw OT::InternalException(HERE) << "Size too large for FFTW";
   ComplexCollection result(size);
-  fftw_plan pBackward(fftw_plan_dft_1d(size, reinterpret_cast<fftw_complex *>(const_cast<OT::Complex*>(&collection[first])), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_BACKWARD, FFTW_ESTIMATE));
+  ComplexCollection input(collection.begin() + first, collection.begin() + first + size);
+  fftw_plan pBackward(fftw_plan_dft_1d(static_cast<int>(size), reinterpret_cast<fftw_complex *>(&input[0]), reinterpret_cast<fftw_complex *>(&result[0]), FFTW_BACKWARD, FFTW_ESTIMATE));
+  if (!pBackward) throw OT::InternalException(HERE) << "FFTW plan creation failed";
   fftw_execute(pBackward);
   fftw_destroy_plan(pBackward);
   for (OT::UnsignedInteger i = 0; i < size; ++i)
