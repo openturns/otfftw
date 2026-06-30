@@ -1,0 +1,41 @@
+#                                               -*- cmake -*-
+#
+#  OTFFTWConfig.cmake(.in)
+#
+#  Find OTFFTW includes and libraries
+#
+#  Copyright 2005-2024 Phimeca
+#
+
+# Use the following variables to compile and link against OTFFTW:
+#  OTFFTW_FOUND          - True if OTFFTW was found on your system
+#  OTFFTW_DEFINITIONS    - Definitions needed to build with OTFFTW
+#  OTFFTW_INCLUDE_DIRS   - List of directories where OTFFTW' header file are
+#  OTFFTW_LIBRARY        - Library name
+#  OTFFTW_LIBRARIES      - List of libraries to link against
+#  OTFFTW_LIBRARY_DIRS   - List of directories containing OTFFTW' libraries
+#  OTFFTW_ROOT_DIR       - The base directory of OTFFTW
+#  OTFFTW_VERSION_STRING - A human-readable string containing the version
+#  OTFFTW_VERSION_MAJOR  - The major version of OTFFTW
+#  OTFFTW_VERSION_MINOR  - The minor version of OTFFTW
+#  OTFFTW_VERSION_PATCH  - The patch version of OTFFTW
+
+set (OTFFTW_FOUND 1)
+
+set (OTFFTW_DEFINITIONS  "@OTFFTW_DEFINITIONS@")
+set (OTFFTW_INCLUDE_DIR  "@OTFFTW_INCLUDE_DIR@")
+set (OTFFTW_INCLUDE_DIRS "@OTFFTW_INCLUDE_DIRS@")
+set (OTFFTW_LIBRARY      "@OTFFTW_LIBRARY@")
+set (OTFFTW_LIBRARIES    "@OTFFTW_LIBRARIES@")
+set (OTFFTW_LIBRARY_DIRS "@OTFFTW_LIBRARY_DIRS@")
+set (OTFFTW_ROOT_DIR     "@OTFFTW_ROOT_DIR@")
+
+set (OTFFTW_VERSION_STRING "@OTFFTW_VERSION_STRING@")
+set (OTFFTW_VERSION_MAJOR  "@OTFFTW_VERSION_MAJOR@")
+set (OTFFTW_VERSION_MINOR  "@OTFFTW_VERSION_MINOR@")
+set (OTFFTW_VERSION_PATCH  "@OTFFTW_VERSION_PATCH@")
+
+set (OTFFTW_PYTHON_MODULE_PATH "@PYTHON_MODULE_PATH@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include (${CMAKE_CURRENT_LIST_DIR}/OTFFTW-Targets.cmake)
