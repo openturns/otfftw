@@ -51,6 +51,28 @@ This section gives an exhaustive presentation of the objects and functions provi
     \item[Value :] a NumericalComplexCollection, containing the inverse discrete Fourier transform of the whole collection for the first usage and of the sub-sequence starting at position $first$ and of length $size$ for the second usage.
     \end{description}
 
+  \item $transformND$
+    \begin{description}
+    \item[Usage :]  $transformND(data, dimensions)$
+    \item[Arguments :]  \strut
+      \begin{description}
+      \item $data$ : a NumericalComplexCollection or a Point (real values) stored as a flat array in column-major order.
+      \item $dimensions$ : a Indices, the shape of the tensor along each dimension.
+      \end{description}
+    \item[Value :] a NumericalComplexCollection, containing the multi-dimensional direct discrete Fourier transform.
+    \end{description}
+
+  \item $inverseTransformND$
+    \begin{description}
+    \item[Usage :]  $inverseTransformND(data, dimensions)$
+    \item[Arguments :]  \strut
+      \begin{description}
+      \item $data$ : a NumericalComplexCollection or a Point (real values) stored as a flat array in column-major order.
+      \item $dimensions$ : a Indices, the shape of the tensor along each dimension.
+      \end{description}
+    \item[Value :] a NumericalComplexCollection, containing the multi-dimensional inverse discrete Fourier transform.
+    \end{description}
+
   \end{description}
 
 \end{description}
