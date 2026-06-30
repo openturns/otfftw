@@ -1,5 +1,8 @@
 // SWIG file FFTW.i
 
+#define OTFFTW_API
+#define OTFFTW_LOCAL
+
 %{
 #include "otfftw/FFTW.hxx"
 %}
