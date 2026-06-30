@@ -26,3 +26,5 @@ $$
 which gives the relation $z=\Check{\Hat{z}}$.
 
 It is worth noting that the FFTW library does not include the $\frac{1}{n}$ normalization factor for the inverse transform. The FFTW library provides an $\mathcal{O}(n\log n)$ complexity implementation of such transforms even for prime $n$, but the best performance is achieved when $n$ is a power of 2.
+
+The module also provides multi-dimensional transforms which extend the DFT to tensors of arbitrary dimension. Given an $N$-dimensional tensor of shape $(n_1,\dots,n_N)$ stored as a flat array in column-major order (first dimension varies fastest), the multi-dimensional DFT is computed by applying the 1D FFT sequentially along each dimension using the row-column algorithm. The product $\prod_{i=1}^N n_i$ must equal the size of the input data.

@@ -18,7 +18,7 @@ if ( PDFLATEX_COMPILER AND BIBTEX_COMPILER )
     set ( LATEX_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
   endif ()
   add_latex_document ( otfftw_Documentation.tex
-    INPUTS logootfftw.png GenericInformation.tex.in otfftw_summary.tex otfftw_UserManual.tex Math_Notations.sty otfftw_ExamplesGuide.tex otfftw_title.tex otfftw_Documentation.sty otfftw_ReferenceGuide.tex otfftw_UseCasesGuide.tex fftw_DSPEstimation.py UC1_transform.py UC2_spectral.py UC3_Welch.py DSPComparison.pdf
+    INPUTS logootfftw.png GenericInformation.tex.in otfftw_summary.tex otfftw_UserManual.tex Math_Notations.sty otfftw_ExamplesGuide.tex otfftw_title.tex otfftw_Documentation.sty otfftw_ReferenceGuide.tex otfftw_UseCasesGuide.tex fftw_DSPEstimation.py UC1_transform.py UC2_spectral.py UC3_Welch.py UC4_transformND.py DSPComparison.pdf
     DEFAULT_PDF
     MANGLE_TARGET_NAMES
   ) 

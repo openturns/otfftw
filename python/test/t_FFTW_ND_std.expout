@@ -1,0 +1,5 @@
+ND 1D vs 1D err= OK
+ND 2D round-trip err= OK
+ND 3D round-trip err= OK
+ND Point round-trip err= OK
+ND bad size throws= OK
