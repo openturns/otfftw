@@ -61,6 +61,22 @@ public:
                                      const OT::UnsignedInteger first,
                                      const OT::UnsignedInteger size) const override;
 
+  /** FFT ND transformation on real data stored as a flat array */
+  ComplexCollection transformND(const OT::Point & data,
+                                const OT::Indices & dimensions) const;
+
+  /** FFT ND transformation on complex data stored as a flat array */
+  ComplexCollection transformND(const ComplexCollection & data,
+                                const OT::Indices & dimensions) const;
+
+  /** IFFT ND transformation on real data stored as a flat array */
+  ComplexCollection inverseTransformND(const OT::Point & data,
+                                       const OT::Indices & dimensions) const;
+
+  /** IFFT ND transformation on complex data stored as a flat array */
+  ComplexCollection inverseTransformND(const ComplexCollection & data,
+                                       const OT::Indices & dimensions) const;
+
   /** String converter */
   OT::String __repr__() const override;
 
@@ -68,6 +84,9 @@ public:
   OT::String __str__(const OT::String & offset = "") const override;
 
 private:
+  ComplexCollection fftND(const ComplexCollection & data,
+                          const OT::Indices & dimensions,
+                          const int sign) const;
 
 } ; /* class FFTW */
 

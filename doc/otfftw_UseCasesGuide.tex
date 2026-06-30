@@ -121,3 +121,27 @@ Python script for this use case:
 
 \lstinputlisting[language=Python]{UC3_Welch.py}
 
+\subsection{UC: Performing multi-dimensional discrete Fourier transforms} \label{FFTWND}
+
+With the $otfftw$ module, it is possible to perform multi-dimensional direct and inverse discrete Fourier transforms using the high-performance fftw library. The data is stored as a flat array in column-major order, and the shape is specified by a Indices.
+
+\requirements{
+  \begin{description}
+  \item[$\bullet$] a flat array of values: {\itshape data}
+  \item[type:] NumericalComplexCollection or Point
+  \item[$\bullet$] the shape of the tensor: {\itshape dimensions}
+  \item[type:] Indices
+  \end{description}
+}
+{
+  \begin{description}
+  \item[$\bullet$] the transformed sequence : {\itshape transformedData},
+  \item[type:] NumericalComplexCollection
+  \end{description}
+}
+\espace
+
+Python script for this use case:
+
+\lstinputlisting[language=Python]{UC4_transformND.py}
+

@@ -38,7 +38,7 @@ endmacro ()
 
 
 ot_pyinstallcheck_test (FFTW_std)
-
+ot_pyinstallcheck_test (FFTW_ND_std)
 
 if (MATPLOTLIB_FOUND)
   file (GLOB_RECURSE PYFILES "${PROJECT_SOURCE_DIR}/python/doc/examples/*.py")

@@ -22,6 +22,8 @@
 #include <climits>
 #include <fftw3.h>
 #include <openturns/OTtypes.hxx>
+#include <openturns/OSS.hxx>
+#include <openturns/Exception.hxx>
 #include "otfftw/FFTW.hxx"
 #include <openturns/PersistentObjectFactory.hxx>
 
@@ -108,6 +110,78 @@ FFTW::ComplexCollection FFTW::inverseTransform(const ComplexCollection & collect
   fftw_destroy_plan(pBackward);
   for (OT::UnsignedInteger i = 0; i < size; ++i)
     result[i] /= size;
+  return result;
+}
+
+/* FFT ND transformation on complex data stored as a flat array */
+FFTW::ComplexCollection FFTW::transformND(const ComplexCollection & data,
+    const OT::Indices & dimensions) const
+{
+  return fftND(data, dimensions, FFTW_FORWARD);
+}
+
+/* FFT ND transformation on real data stored as a flat array */
+FFTW::ComplexCollection FFTW::transformND(const OT::Point & data,
+    const OT::Indices & dimensions) const
+{
+  const OT::UnsignedInteger totalSize = data.getSize();
+  ComplexCollection complexData(totalSize);
+  for (OT::UnsignedInteger i = 0; i < totalSize; ++i)
+    complexData[i] = OT::Complex(data[i], 0.0);
+  return fftND(complexData, dimensions, FFTW_FORWARD);
+}
+
+/* IFFT ND transformation on complex data stored as a flat array */
+FFTW::ComplexCollection FFTW::inverseTransformND(const ComplexCollection & data,
+    const OT::Indices & dimensions) const
+{
+  return fftND(data, dimensions, FFTW_BACKWARD);
+}
+
+/* IFFT ND transformation on real data stored as a flat array */
+FFTW::ComplexCollection FFTW::inverseTransformND(const OT::Point & data,
+    const OT::Indices & dimensions) const
+{
+  const OT::UnsignedInteger totalSize = data.getSize();
+  ComplexCollection complexData(totalSize);
+  for (OT::UnsignedInteger i = 0; i < totalSize; ++i)
+    complexData[i] = OT::Complex(data[i], 0.0);
+  return fftND(complexData, dimensions, FFTW_BACKWARD);
+}
+
+/* ND FFT helper */
+FFTW::ComplexCollection FFTW::fftND(const ComplexCollection & data,
+                                     const OT::Indices & dimensions,
+                                     const int sign) const
+{
+  const OT::UnsignedInteger nDims = dimensions.getSize();
+  OT::UnsignedInteger totalSize = 1;
+  for (OT::UnsignedInteger i = 0; i < nDims; ++i)
+    totalSize *= dimensions[i];
+  if (data.getSize() != totalSize)
+    throw OT::InvalidArgumentException(HERE) << "In FFTW::fftND: data size (" << data.getSize()
+                                             << ") does not match product of dimensions (" << totalSize << ")";
+
+  ComplexCollection result(totalSize);
+  int *revDims = new int[nDims];
+  for (OT::UnsignedInteger i = 0; i < nDims; ++i)
+    revDims[i] = static_cast<int>(dimensions[nDims - 1 - i]);
+
+  fftw_plan p(fftw_plan_dft(static_cast<int>(nDims), revDims,
+                             reinterpret_cast<fftw_complex *>(const_cast<OT::Complex *>(&data[0])),
+                             reinterpret_cast<fftw_complex *>(&result[0]),
+                             sign, FFTW_ESTIMATE));
+  delete[] revDims;
+  if (p == NULL) throw OT::InternalException(HERE) << "FFTW plan creation failed for ND transform";
+  fftw_execute(p);
+  fftw_destroy_plan(p);
+
+  if (sign == FFTW_BACKWARD)
+  {
+    const OT::Complex factor(1.0 / totalSize);
+    for (OT::UnsignedInteger i = 0; i < totalSize; ++i)
+      result[i] *= factor;
+  }
   return result;
 }
 
