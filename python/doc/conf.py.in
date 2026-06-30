@@ -1,0 +1,114 @@
+# -*- coding: utf-8 -*-
+#
+# otfftw documentation build configuration file, created by
+# sphinx-quickstart on Fri Jun 19 15:57:39 2015.
+#
+# This file is execfile()d with the current directory set to its containing dir.
+
+from packaging.version import Version
+from pathlib import Path
+import sphinx_gallery
+import sys
+import subprocess
+
+sys.path.insert(0, '@OTFFTW_PYTHON_BUILD_MODULE_PATH@')
+sys.path.insert(0, '@OPENTURNS_PYTHON_MODULE_PATH@')
+
+# -- General configuration -----------------------------------------------------
+toc_object_entries = False
+
+extensions = ['sphinx.ext.autodoc']
+extensions.append('sphinx.ext.autodoc')
+autodoc_default_options = {'members': None, 'inherited-members': None, 'exclude-members': 'thisown'}
+autodoc_use_legacy_class_based = True
+
+extensions.append('sphinx.ext.autosummary')
+autosummary_generate = True
+
+extensions.append('numpydoc')
+numpydoc_show_class_members = True
+numpydoc_class_members_toctree = False
+
+extensions.append('sphinx.ext.doctest')
+extensions.append('sphinx.ext.todo')
+todo_include_todos = True
+extensions.append('sphinx.ext.coverage')
+extensions.append('sphinx.ext.intersphinx')
+inventory = (None, 'openturns-objects.inv')
+intersphinx_mapping = {'openturns': ('https://openturns.github.io/openturns/latest', inventory)}
+
+extensions.append('sphinx.ext.imgmath')
+mnpkg = Path(__file__).resolve().parent / "math_notations"
+imgmath_latex_preamble = rf"\usepackage{{{mnpkg.as_posix()}}}"
+imgmath_use_preview = True
+if subprocess.run(['dvisvgm', '-V'], shell=True, capture_output=True).returncode == 0:
+    imgmath_image_format = 'svg'
+imgmath_embed = True
+
+extensions.append("matplotlib.sphinxext.plot_directive")
+plot_formats = ["svg"]
+plot_rcparams = {"svg.hashsalt": "nacl"}
+plot_pre_code = "import openturns as ot; ot.ResourceMap.Reset(); ot.RandomGenerator.Reset()"
+
+extensions.append('sphinx_copybutton')
+copybutton_prompt_text = ">>> "
+
+extensions.append('sphinx_gallery.gen_gallery')
+sphinx_gallery_conf = {
+    'examples_dirs': ['examples'],
+    'gallery_dirs': ['auto_examples'],
+    'show_signature': False,
+    "download_all_examples": False,
+    "backreferences_dir": "gen_modules/backreferences",
+    'doc_module': ('otfftw'),
+    'exclude_implicit_doc': {},
+    "min_reported_time": 1e6,
+}
+if Version(sphinx_gallery.__version__) >= Version("0.18.0"):
+    sphinx_gallery_conf["write_computation_times"] = False
+
+templates_path = ['_templates']
+source_suffix = {'.rst': 'restructuredtext'}
+master_doc = 'index'
+project = u'otfftw'
+copyright = u'2005-2026 Airbus-EDF-IMACS-ONERA-Phimeca'
+version = '@CPACK_PACKAGE_VERSION_MAJOR@.@CPACK_PACKAGE_VERSION_MINOR@'
+release = '@PACKAGE_VERSION@'
+exclude_patterns = ['_build', 'themes', 'sphinxext']
+pygments_style = 'sphinx'
+
+# -- Options for HTML output ---------------------------------------------------
+html_theme = 'openturns'
+html_theme_path = ["themes"]
+html_static_path = ['_static']
+html_css_files = ["css/custom.css", "css/sphx_glr.css"]
+html_last_updated_fmt = '%b %d, %Y'
+htmlhelp_basename = 'otfftwdoc'
+
+# -- Options for LaTeX output --------------------------------------------------
+latex_elements = {
+    'papersize': 'a4paper',
+    'pointsize': '10pt',
+    'preamble': r'\usepackage{math_notations}',
+}
+latex_additional_files = ['math_notations.sty']
+latex_documents = [
+  ('index', 'otfftw.tex', u'otfftw Documentation',
+   u'Airbus-EDF-IMACS-Phimeca', 'manual'),
+]
+
+# -- Options for manual page output --------------------------------------------
+man_pages = [
+    ('index', 'otfftw', u'otfftw Documentation',
+     [u'Airbus-EDF-IMACS-Phimeca'], 1)
+]
+
+# -- Options for Texinfo output ------------------------------------------------
+texinfo_documents = [
+  ('index', 'otfftw', u'otfftw Documentation',
+   u'Airbus-EDF-IMACS-Phimeca', 'otfftw', 'One line description of project.',
+   'Miscellaneous'),
+]
+
+# nitpicky = True
+nitpicky = False
