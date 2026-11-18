@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.18)
 
 option ( BUILD_PYTHON                 "Build the python module for the library"                               ON )
+option ( USE_SPHINX                   "Use sphinx for documentation"                                          OFF )
 option ( BUILD_SHARED_LIBS            "Build shared libraries"                                                ON )
 
 # By default, build in Release mode. Must appear before project() command
