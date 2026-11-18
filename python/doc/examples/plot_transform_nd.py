@@ -6,6 +6,7 @@ Multi-dimensional FFT transform
 import openturns as ot
 import otfftw
 import matplotlib.pyplot as plt
+import numpy as np
 from math import exp, pi, cos
 
 # %%
@@ -45,7 +46,6 @@ for j in range(cols):
 
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(14, 4))
 # Reshape for display (transpose to get row-major for imshow)
-import numpy as np
 img = np.array([data2d[i] for i in range(totalSize)]).reshape((rows, cols))
 ax1.imshow(img.T, origin="lower", aspect="auto")
 ax1.set_title("Original 2D data")
