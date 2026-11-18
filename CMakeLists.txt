@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 3.18)
 
 option ( BUILD_PYTHON                 "Build the python module for the library"                               ON )
-option ( BUILD_DOC                    "Build the documentation"                                               OFF )
 option ( BUILD_SHARED_LIBS            "Build shared libraries"                                                ON )
 
 # By default, build in Release mode. Must appear before project() command
@@ -142,10 +141,6 @@ add_dependencies (check cppcheck)
 if (Python_FOUND AND SWIG_FOUND)
   add_subdirectory (python)
   add_dependencies (installcheck pyinstallcheck)
-endif ()
-
-if (BUILD_DOC)
-  add_subdirectory (doc)
 endif ()
 
 # uninstall target
